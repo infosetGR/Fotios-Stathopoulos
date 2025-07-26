@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Extension Icons</title>
+</head>
+<body>
+    <h1>Extension Icon Generator</h1>
+    <p>Open browser console and run the script to generate icons</p>
+    
+    <script>
+        // Function to create and download PNG icons
+        function createIcon(text, bgColor, size, filename) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background circle
+            ctx.fillStyle = bgColor;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 2, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Border
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${Math.floor(size/3)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, size/2, size/2);
+            
+            // Download
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        function createWorkingIcon(size, filename) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Orange background circle
+            ctx.fillStyle = '#ff9800';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 2, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Border
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Three dots to indicate working
+            ctx.fillStyle = '#ffffff';
+            const dotRadius = size/16;
+            const spacing = size/8;
+            for(let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.arc(size/2 - spacing + (i * spacing), size/2, dotRadius, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            
+            // Download
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        // Generate all icons
+        function generateAllIcons() {
+            const sizes = [16, 32, 48, 128];
+            
+            sizes.forEach(size => {
+                // Normal icons
+                createIcon('AI', '#4285f4', size, `icon-${size}.png`);
+                
+                // Working icons
+                setTimeout(() => {
+                    createWorkingIcon(size, `working-${size}.png`);
+                }, 500);
+            });
+            
+            console.log('Icons generated! Check your downloads folder.');
+        }
+        
+        // Auto-generate icons when page loads
+        setTimeout(generateAllIcons, 1000);
+    </script>
+</body>
+</html>

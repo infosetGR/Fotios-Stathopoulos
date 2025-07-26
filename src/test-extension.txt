@@ -1,0 +1,15 @@
+This is a test file for the Chrome Form Filler extension.
+
+Personal Information:
+- Name: John Doe
+- Email: john.doe@example.com
+- Phone: +1-555-123-4567
+- Address: 123 Main Street, Anytown, State 12345
+
+Professional Details:
+- Company: Tech Solutions Inc.
+- Position: Senior Software Engineer
+- Experience: 8 years of experience in web development
+- Skills: JavaScript, Python, React, Node.js
+
+This file can be uploaded to test the embedding functionality of the AI form filler.

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fallback Test - Form Fields Without Knowledge Base</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f8ff;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #6366f1;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #4f46e5;
+        }
+        .instructions {
+            background-color: #ede9fe;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            border-left: 4px solid #6366f1;
+        }
+        .test-note {
+            background-color: #fef3c7;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f59e0b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="instructions">
+            <strong>🧪 Gemini AI Fallback Test</strong><br>
+            This form contains fields that won't match your uploaded knowledge base.<br>
+            The extension will use Gemini AI to generate intelligent suggestions when no relevant data is found.
+        </div>
+
+        <div class="test-note">
+            <strong>📝 Test Instructions:</strong><br>
+            1. Don't upload any files (to test AI fallback)<br>
+            2. Click "📄 Read Page" to analyze this form<br>
+            3. Click "🤖 Fill Form" to see Gemini-generated values<br>
+            4. Check console for source indicators: 🤖 = AI Generated, 📚 = Knowledge Base, 🔧 = Fallback
+        </div>
+
+        <h2>Creative Project Registration</h2>
+        
+        <form id="creativeForm" action="#" method="post">
+            <div class="form-group">
+                <label for="artistName">Artist/Creator Name:</label>
+                <input type="text" id="artistName" name="artistName" placeholder="Your artistic name">
+            </div>
+
+            <div class="form-group">
+                <label for="studioEmail">Studio Email:</label>
+                <input type="email" id="studioEmail" name="studioEmail" placeholder="studio@creative.com">
+            </div>
+
+            <div class="form-group">
+                <label for="portfolioWebsite">Portfolio Website:</label>
+                <input type="url" id="portfolioWebsite" name="portfolioWebsite" placeholder="https://yourportfolio.com">
+            </div>
+
+            <div class="form-group">
+                <label for="contactPhone">Contact Phone:</label>
+                <input type="tel" id="contactPhone" name="contactPhone" placeholder="Your phone number">
+            </div>
+
+            <div class="form-group">
+                <label for="projectTitle">Project Title:</label>
+                <input type="text" id="projectTitle" name="projectTitle" placeholder="Name of your creative project">
+            </div>
+
+            <div class="form-group">
+                <label for="projectBudget">Project Budget (USD):</label>
+                <input type="number" id="projectBudget" name="projectBudget" placeholder="10000">
+            </div>
+
+            <div class="form-group">
+                <label for="completionDate">Expected Completion Date:</label>
+                <input type="date" id="completionDate" name="completionDate">
+            </div>
+
+            <div class="form-group">
+                <label for="artMedium">Primary Art Medium:</label>
+                <select id="artMedium" name="artMedium">
+                    <option value="">Select medium</option>
+                    <option value="digital">Digital Art</option>
+                    <option value="painting">Painting</option>
+                    <option value="sculpture">Sculpture</option>
+                    <option value="photography">Photography</option>
+                    <option value="mixed">Mixed Media</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="galleryName">Preferred Gallery Name:</label>
+                <input type="text" id="galleryName" name="galleryName" placeholder="Name of gallery or exhibition space">
+            </div>
+
+            <div class="form-group">
+                <label for="inspirationSource">Primary Inspiration Source:</label>
+                <input type="text" id="inspirationSource" name="inspirationSource" placeholder="What inspires your work?">
+            </div>
+
+            <div class="form-group">
+                <label for="artistStatement">Artist Statement:</label>
+                <textarea id="artistStatement" name="artistStatement" placeholder="Describe your artistic vision and approach..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="socialMediaHandle">Instagram Handle:</label>
+                <input type="text" id="socialMediaHandle" name="socialMediaHandle" placeholder="@yourhandle">
+            </div>
+
+            <div class="form-group">
+                <label for="yearsOfExperience">Years of Experience:</label>
+                <input type="number" id="yearsOfExperience" name="yearsOfExperience" min="0" max="50" placeholder="5">
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Creative Project</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('creativeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Creative project submitted! Check the console to see how Gemini AI generated the form values.');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+# Sample Personal Information
+
+## Contact Details
+My name is Fotios Stathopoulos and I work as a Software Engineer at Infoset Inc.
+My email address is fotios.stathopoulos@infoset.co and you can reach me at +30 6945757037.
+My website is https://infoset.co and I'm based in Athens, Greece.
+
+## Professional Information
+- Company: Infoset Inc.
+- Position: Senior Software Engineer
+- Department: Engineering
+- Start Date: 2020-03-15
+- Employee ID: EMP001234
+- Salary: $95,000
+
+## Personal Details
+- Full Name: Fotios Stathopoulos
+- Date of Birth: 1976-10-14
+- Address: 123 Tech Street, Athens, GR 15343
+- Phone: +30 6945757037
+- Emergency Contact: Jane Smith (+1-555-987-6543)
+
+## Education
+- University: Stanford University
+- Degree: Bachelor of Science in Computer Science
+- Graduation Year: 2012
+- GPA: 3.8
+
+## Skills and Certifications
+- Programming Languages: JavaScript, Python, Java
+- Frameworks: React, Node.js, Express
+- Certifications: AWS Certified Developer, Google Cloud Professional
+- Years of Experience: 18 years
+
+## Preferences
+- Preferred Communication: Email
+- Language: English
+- Time Zone: Pacific Standard Time (EST)
+- Preferred Meeting Times: 10:00 AM - 4:00 PM PST

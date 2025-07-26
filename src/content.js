@@ -10,14 +10,23 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
     case 'readPage':
       console.log('📄 Starting page analysis...');
+      showWorkingIndicator('Analyzing page...');
       analyzePage().then(success => {
+        hideWorkingIndicator();
         sendResponse({ success, message: success ? 'Page analyzed successfully' : 'No forms found' });
       });
       break;
 
     case 'fillForm':
       console.log('🤖 Starting form fill process...');
-      fillFormsOnPage().then(success => {
+      console.log('📝 Custom instructions:', request.customInstructions || 'None');
+      showWorkingIndicator('Filling forms...');
+      
+      // Start monitoring form submissions when user wants to fill forms
+      monitorFormSubmissions();
+      
+      fillFormsOnPage(request.customInstructions).then(success => {
+        hideWorkingIndicator();
         sendResponse({ success, message: success ? 'Forms filled successfully' : 'Failed to fill forms' });
       });
       break;
@@ -538,10 +547,22 @@ function getRelevantAttributes(element) {
   return attributes;
 }
 
-async function fillFormsOnPage() {
+async function fillFormsOnPage(customInstructions = '') {
   console.group('🤖 Form Filling Process');
   
   try {
+    // Log custom instructions if provided
+    if (customInstructions && customInstructions.trim()) {
+      console.log('📝 Using custom instructions:', customInstructions);
+    }
+    
+    // Get knowledge base stats first
+    const libraryStats = await getKnowledgeBaseStats();
+    console.log(`📚 Knowledge Library Status: ${libraryStats.filesCount} files, ${libraryStats.chunksCount} chunks`);
+    if (libraryStats.filesCount > 0) {
+      console.log(`📋 Available files:`, libraryStats.fileNames.join(', '));
+    }
+    
     // Try to get stored field information from sync, then local storage
     let formFields;
     let syncData, localData;
@@ -581,43 +602,25 @@ async function fillFormsOnPage() {
     
     for (const [fieldKey, fieldInfo] of Object.entries(formFields)) {
       try {
-        // Generate a test value based on the field's title and type
+        // Get intelligent suggestion from knowledge base
         const fieldTitle = fieldInfo.title.text;
-        let testValue;
+        const suggestion = await getIntelligentSuggestion(fieldInfo, customInstructions);
 
-        // Handle different input types
-        switch(fieldInfo.type.toLowerCase()) {
-          case 'checkbox':
-            testValue = true;
-            break;
-          case 'number':
-            testValue = '42';
-            break;
-          case 'email':
-            testValue = `test.${fieldTitle.toLowerCase().replace(/[^a-z0-9]/g, '')}@example.com`;
-            break;
-          case 'tel':
-            testValue = '+1-555-0123';
-            break;
-          case 'url':
-            testValue = `https://example.com/${fieldTitle.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
-            break;
-          case 'date':
-            testValue = '2025-07-26';
-            break;
-          default:
-            // For text inputs and others, prefix with TEST: or UNKNOWN:
-            const prefix = fieldInfo.contextualInfo.contextClues.length > 0 ? 'TEST:' : 'UNKNOWN:';
-            testValue = `${prefix} ${fieldTitle}`;
-        }
-
-        const mockSuggestion = {
-          value: testValue,
-          confidence: 1.0
+        await fillField(fieldInfo, suggestion);
+        
+        // Enhanced logging with source information
+        const sourceEmoji = {
+          'knowledge_base': '📚',
+          'gemini_ai': '🤖', 
+          'fallback': '🔧'
         };
-
-        await fillField(fieldInfo, mockSuggestion);
-        console.log(`✅ Field "${fieldTitle}" filled with:`, testValue);
+        const emoji = sourceEmoji[suggestion.source] || '❓';
+        
+        console.log(`✅ Field "${fieldTitle}" filled with: "${suggestion.value}" ${emoji} (${suggestion.source})`);
+        if (suggestion.fileName && suggestion.fileName !== 'Unknown') {
+          console.log(`   └─ Source: ${suggestion.fileName}`);
+        }
+        
         filledCount++;
       } catch (error) {
         console.error(`❌ Error filling field ${fieldKey}:`, error);
@@ -635,7 +638,181 @@ async function fillFormsOnPage() {
   }
 }
 
-async function fillField(fieldInfo, suggestion) {
+async function getIntelligentSuggestion(fieldInfo, customInstructions = '') {
+  console.group(`🧠 Getting intelligent suggestion for: ${fieldInfo.title?.text}`);
+  
+  try {
+    // Create a search query from field context
+    const searchQuery = createSearchQuery(fieldInfo);
+    console.log('🔍 Search query:', searchQuery);
+    
+    // Search knowledge base via background script
+    const response = await new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage({
+        action: 'searchKnowledge',
+        query: searchQuery,
+        fieldType: fieldInfo.type,
+        fieldTitle: fieldInfo.title?.text,
+        customInstructions: customInstructions
+      }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error('❌ Runtime error:', chrome.runtime.lastError);
+          reject(new Error(chrome.runtime.lastError.message));
+          return;
+        }
+        console.log('📨 Background response:', response);
+        resolve(response);
+      });
+    });
+    
+    if (response && response.success && response.suggestions.length > 0) {
+      console.log(`✅ Found ${response.suggestions.length} knowledge base matches`);
+      
+      // Use the best matching suggestion
+      const bestMatch = response.suggestions[0];
+      console.log('📝 Best match:', bestMatch);
+      
+      // Enhanced logging for knowledge base sources
+      if (bestMatch.source === 'knowledge_base') {
+        console.log(`   └─ Source file: ${bestMatch.fileName}`);
+        console.log(`   └─ Similarity: ${(bestMatch.similarity * 100).toFixed(1)}%`);
+        console.log(`   └─ Content preview: "${bestMatch.content.substring(0, 80)}..."`);
+      }
+      
+      // Determine the source and confidence based on the suggestion origin
+      let sourceInfo = {
+        source: bestMatch.source || 'knowledge_base',
+        fileName: bestMatch.fileName || 'Unknown',
+        confidence: bestMatch.similarity || 0.5
+      };
+      
+      // Handle Gemini AI generated suggestions
+      if (bestMatch.source === 'gemini_ai') {
+        sourceInfo = {
+          source: 'gemini_ai',
+          fileName: '🤖 AI Generated',
+          confidence: 0.85  // High confidence for AI suggestions
+        };
+        console.log('🤖 Using Gemini AI generated suggestion');
+      }
+      
+      return {
+        value: bestMatch.extractedValue || bestMatch.content.substring(0, 100),
+        ...sourceInfo
+      };
+    } else {
+      console.log('🤖 No suggestions from background, generating fallback');
+      return generateFallbackSuggestion(fieldInfo);
+    }
+    
+  } catch (error) {
+    console.error('❌ Error getting intelligent suggestion:', error);
+    console.log('🔧 Falling back to simple suggestion due to error');
+    return generateFallbackSuggestion(fieldInfo);
+  } finally {
+    console.groupEnd();
+  }
+}
+
+function createSearchQuery(fieldInfo) {
+  const title = fieldInfo.title?.text || '';
+  const type = fieldInfo.type || '';
+  const placeholder = fieldInfo.placeholder || '';
+  
+  // Combine available context to create a meaningful search query
+  const queryParts = [title];
+  
+  if (placeholder && !title.includes(placeholder)) {
+    queryParts.push(placeholder);
+  }
+  
+  // Add type-specific context
+  switch (type.toLowerCase()) {
+    case 'email':
+      queryParts.push('email address contact');
+      break;
+    case 'tel':
+      queryParts.push('phone number telephone');
+      break;
+    case 'url':
+      queryParts.push('website url link');
+      break;
+    case 'date':
+      queryParts.push('date time');
+      break;
+    case 'number':
+      queryParts.push('number value');
+      break;
+    default:
+      // For text fields, use contextual clues
+      if (fieldInfo.contextualInfo?.contextClues) {
+        const relevantClues = fieldInfo.contextualInfo.contextClues
+          .filter(clue => clue.type === 'explicit_label' || clue.type === 'aria')
+          .map(clue => clue.text)
+          .slice(0, 2);
+        queryParts.push(...relevantClues);
+      }
+  }
+  
+  return queryParts.join(' ').trim();
+}
+
+function generateFallbackSuggestion(fieldInfo) {
+  const fieldTitle = fieldInfo.title?.text || 'field';
+  let value;
+
+  // Generate fallback values based on field type
+  switch(fieldInfo.type.toLowerCase()) {
+    case 'checkbox':
+      value = true;
+      break;
+    case 'number':
+      value = '42';
+      break;
+    case 'email':
+      value = `user@example.com`;
+      break;
+    case 'tel':
+      value = '+1-555-0123';
+      break;
+    case 'url':
+      value = `https://example.com`;
+      break;
+    case 'date':
+      value = '2025-07-26';
+      break;
+    default:
+      value = `Sample ${fieldTitle.toLowerCase()}`;
+  }
+
+    return {
+      value: value,
+      confidence: 0.3,
+      source: 'fallback'
+    };
+}
+
+async function getKnowledgeBaseStats() {
+  try {
+    const result = await chrome.storage.local.get(['uploadedFiles', 'knowledgeBase']);
+    const files = result.uploadedFiles || [];
+    const chunks = result.knowledgeBase || [];
+    
+    // Get unique file names from chunks (in case files metadata is missing)
+    const fileNamesFromChunks = [...new Set(chunks.map(chunk => chunk.fileName))].filter(Boolean);
+    const fileNames = files.length > 0 ? files.map(f => f.name) : fileNamesFromChunks;
+    
+    return {
+      filesCount: Math.max(files.length, fileNamesFromChunks.length),
+      chunksCount: chunks.length,
+      fileNames: fileNames,
+      totalSize: files.reduce((sum, file) => sum + (file.size || 0), 0)
+    };
+  } catch (error) {
+    console.error('Error getting knowledge base stats:', error);
+    return { filesCount: 0, chunksCount: 0, fileNames: [], totalSize: 0 };
+  }
+}async function fillField(fieldInfo, suggestion) {
   // Try multiple strategies to find the element
   let element = findFieldElement(fieldInfo);
 
@@ -824,4 +1001,224 @@ function findFieldElement(fieldInfo) {
   console.log('❌ Field not found with any selector');
   console.groupEnd();
   return null;
+}
+
+// Working indicator functions
+function showWorkingIndicator(message = 'Working...') {
+  // Remove existing indicator if present
+  hideWorkingIndicator();
+  
+  const indicator = document.createElement('div');
+  indicator.id = 'ai-form-filler-indicator';
+  indicator.innerHTML = `
+    <div style="
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4285f4;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 10000;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    ">
+      <div style="
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      "></div>
+      ${message}
+    </div>
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  `;
+  
+  document.body.appendChild(indicator);
+}
+
+function hideWorkingIndicator() {
+  const indicator = document.getElementById('ai-form-filler-indicator');
+  if (indicator) {
+    indicator.remove();
+  }
+}
+
+// Form submission monitoring
+let isMonitoringSubmissions = false;
+
+function monitorFormSubmissions() {
+  if (isMonitoringSubmissions) {
+    console.log('🔍 Form submission monitoring already active');
+    return;
+  }
+  
+  console.log('🔍 Starting form submission monitoring');
+  isMonitoringSubmissions = true;
+  
+  // Check if there are any forms on the page
+  const forms = document.querySelectorAll('form');
+  console.log(`📋 Found ${forms.length} forms on page:`, forms);
+  
+  // Also check for non-form containers that might act as forms
+  const containers = document.querySelectorAll('div, section');
+  const formLikeContainers = Array.from(containers).filter(container => {
+    const inputs = container.querySelectorAll('input, select, textarea');
+    return inputs.length >= 2;
+  });
+  console.log(`📦 Found ${formLikeContainers.length} form-like containers`);
+  
+  // Monitor form submissions
+  document.addEventListener('submit', async (event) => {
+    console.log('🚨 FORM SUBMIT EVENT DETECTED!');
+    const form = event.target;
+    
+    console.group('📝 Form Submission Detected');
+    console.log('Form element:', form);
+    console.log('Form action:', form.action);
+    console.log('Form method:', form.method);
+    console.log('Event target:', event.target);
+    
+    // Don't prevent the form submission, just capture the data
+    // event.preventDefault(); // Comment this out to let form submit normally
+    
+    // Show working indicator
+    showWorkingIndicator('Processing form submission...');
+    
+    try {
+      await processFormSubmission(form);
+    } catch (error) {
+      console.error('❌ Error processing form submission:', error);
+    } finally {
+      hideWorkingIndicator();
+      console.groupEnd();
+    }
+  }, true); // Use capturing to ensure we catch the event first
+  
+  // Also monitor button clicks that might trigger submissions
+  document.addEventListener('click', async (event) => {
+    const target = event.target;
+    
+    // Check if it's a submit button
+    if (target.type === 'submit' || 
+        target.getAttribute('type') === 'submit' ||
+        target.textContent.toLowerCase().includes('submit') ||
+        target.textContent.toLowerCase().includes('send') ||
+        target.className.includes('submit')) {
+      
+      console.log('🖱️ Submit button clicked:', target);
+      
+      // Find the parent form
+      const form = target.closest('form') || target.closest('div, section');
+      if (form) {
+        console.log('📝 Found form for button:', form);
+        
+        // Delay to allow form to populate values
+        setTimeout(async () => {
+          console.group('📝 Button-triggered Form Processing');
+          showWorkingIndicator('Processing form data...');
+          
+          try {
+            await processFormSubmission(form);
+          } catch (error) {
+            console.error('❌ Error processing button-triggered form:', error);
+          } finally {
+            hideWorkingIndicator();
+            console.groupEnd();
+          }
+        }, 500); // Give form time to process
+      }
+    }
+  }, true);
+  
+  console.log('✅ Form submission monitoring initialized');
+}
+
+async function processFormSubmission(form) {
+  console.log('🔄 Processing form submission for:', form);
+  
+  // Gather form data with enhanced field information
+  const fieldValues = {};
+  
+  // Process each field in the form
+  const formElements = form.querySelectorAll('input, select, textarea, [contenteditable="true"]');
+  console.log(`🔍 Found ${formElements.length} form elements to process`);
+  
+  for (const element of formElements) {
+    if (shouldSkipElement(element)) {
+      console.log('⏭️ Skipping element:', element.type, element.name || element.id);
+      continue;
+    }
+    
+    console.log('🔍 Processing element:', element.type, element.name || element.id, element.value);
+    
+    const fieldInfo = extractFieldInfo(element);
+    const meaningfulTitle = findMeaningfulTitle(fieldInfo.contextualInfo, element);
+    
+    if (meaningfulTitle) {
+      // Get the actual submitted value
+      let submittedValue = '';
+      if (element.type === 'checkbox') {
+        submittedValue = element.checked;
+      } else if (element.type === 'radio') {
+        submittedValue = element.checked ? element.value : '';
+      } else {
+        submittedValue = element.value || '';
+      }
+      
+      // Include all fields, even empty ones for debugging
+      const fieldKey = fieldInfo.id || fieldInfo.name || `field_${Object.keys(fieldValues).length}`;
+      
+      fieldValues[fieldKey] = {
+        ...fieldInfo,
+        title: meaningfulTitle,
+        value: submittedValue,
+        timestamp: Date.now()
+      };
+      
+      console.log(`📊 Field "${meaningfulTitle.text}": "${submittedValue}" (${typeof submittedValue})`);
+    } else {
+      console.warn('⚠️ No meaningful title found for element:', element);
+    }
+  }
+  
+  console.log('📋 Complete form data:', fieldValues);
+  
+  // Send to background script for embedding processing
+  if (Object.keys(fieldValues).length > 0) {
+    console.log('🚀 Sending form data for embedding processing...');
+    
+    chrome.runtime.sendMessage({
+      action: 'formSubmitted',
+      formData: fieldValues,
+      url: window.location.href,
+      timestamp: Date.now()
+    }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('❌ Error sending form data:', chrome.runtime.lastError);
+      } else {
+        console.log('✅ Form data sent successfully:', response);
+      }
+    });
+  } else {
+    console.warn('⚠️ No form data found to process');
+  }
+}
+
+// Initialize form submission monitoring when page loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', monitorFormSubmissions);
+} else {
+  monitorFormSubmissions();
 }

@@ -1,0 +1,285 @@
+FOTIOS STATHOPOULOS
+Personal Info
+Birthday: 14th Oct 1976
+Address: Agia Paraskeyi, Attica, Greece
+Email: fotioss@icloud.com
+Github: https://github.com/infosetGR/
+Udemy: https://www.udemy.com/user/fotios-stathopoulos/
+Phone: +306945757037
+Profile
+Experienced Technical Manager with 19 years of expertise across the full architecture
+and development lifecycle. Specializing in cloud solutions, I am committed to delivering
+impactful, measurable results that drive process excellence and maximize customer
+satisfaction. Holding multiple certifications in Azure and AWS, I excel in both technical
+proficiency and strategic leadership. Leading by example, I foster a collaborative and
+growth-oriented team environment, mentoring and motivating team members to achieve
+high performance and successful outcomes.
+Core Skills
+• Proven experience in team management using agile methodologies, driving software
+development teams to exceed performance goals.
+• Expertise in technical planning and budgeting for complex IT projects.
+• Leadership in cloud migration and infrastructure projects (serverless, SaaS, PaaS) with a
+focus on lean six sigma principles.
+• AWS Certified Solutions Architect & DevOps Engineer Professional.
+• Azure Certified Solutions Architect Expert and Data Engineer Associate.
+• Extensive DevOps and SDLC expertise (AWS & Azure DevOps, CI/CD, Docker,
+Kubernetes, IaaC/Terraform, Jenkins, Git), with a strong ability to design and implement
+scalable cloud infrastructures and CI/CD pipelines for enterprise applications.
+• Product management proficiency, delivering tailored software solutions and SaaS using
+SOLID principles and design patterns.
+• Excellent communication skills, adept at collaborating with cross-functional teams and C-
+level executives to build strong working relationships.
+• Customer-centric approach, consistently delivering high-quality enterprise solutions within
+tight deadlines.
+• Strong technical expertise in serverless architectures, microservices on Docker &
+Kubernetes, C#, Java, .NET, SQL Server, MySQL, PostgreSQL, Python, LINQ,
+JavaScript (JQuery, ExtJS, React.js, NodeJS), Firebase.
+• Extensive experience in Big Data and distributed computing technologies (Databricks,
+Spark, Cassandra, Kafka, HDFS, HBase, Hive, Presto, ElasticSearch, Kibana), with
+certifications in AWS Data Analytics and Azure Data Engineering.
+• Expertise in real time data analytics utilizing Apache Flink in multiple cloud environments
+• Expertise in building LLM application (LangChain, LangGraph, Hugging Face, OpenAI,
+Amazon Bedrock, AI agents, Pinecone, streamlit, cursor, firecrawl)
+• Experience with building blockchain and Etherium smart contracts.
+Career History
+September 2024 – now: Infoset LTD
+Founder and Head Engineer
+• Relaunched Infoset with a strategic focus on delivering cutting-edge AI solutions, specializing
+in the development of agentic applications, Advanced Retrieval-Augmented Generation
+(RAG) workflows, and LLM-powered systems. Leading product vision, architecture, and go-
+to-market strategy for a suite of AI tools designed to enable intelligent automation, knowledge
+discovery, and enterprise integration.
+• Oversaw the launch of high-impact open services such as diavgeia.infoset.co,
+nomos.infoset.co, and business.infoset.co, simplifying access to public data through user-
+friendly interfaces and open APIs. Driving collaboration with developers, researchers, and
+organizations to operationalize AI responsibly and effectively.
+May 2019 to August 2024 Freelance
+• Lead Cloud & AI Consultant, Incelligent Oct 2023 - Oct 2024
+o External consultancy for the cloud migration of a major Greek bank's data
+warehouse to Azure and Databricks.
+o Conducted a comprehensive assessment of the bank's IT landscape by
+measuring facts and data from internal systems, identifying challenges and
+developing a detailed migration roadmap.
+o Led an outsourced development team, ensuring the successful delivery of key
+modernization projects on Azure Databricks.
+o Conducted the transition of critical e-banking real-time pipelines to Apache Flink,
+achieving over 50% improvement in performance and cost efficiency compared to
+the previous Spark-based process.
+o External consultancy on the design and architecture of a cloud-based fuel trading
+analytics platform for the Greek government. Designed overall architecture, reviewed
+and approved final technical design.
+o Co-led the technical study, design and architecture on Azure (Synapse, Data
+Factory, Databricks, Power BI, ML), integrating multiple government systems to
+build a robust data analytics and machine learning platform aimed at detecting
+delinquent behavior in fuel trading and consumption.
+o Lead Technical Consultant for Public Power Corporation’s Big Data cleansing and
+Cloud migration project to Azure.
+o Held full responsibility for the technical execution and delivery of the project.
+o Designed and implemented the overall architecture for the PoC (Databricks, Azure
+Synapse) and the delta mechanism for migrating customer data to a new CRM.
+o Reduced processing time from 40 hours to 1 hour by leveraging Databricks
+workflows and Spark notebooks on Azure.
+• Chief Technology Officer. (London start-up in Industry 4.0 & AR in Manufacturing) (March
+2021 – September 2021).
+o Driving the technical design and business plan from concept to execution. Led
+technical discussions and established partnership agreements with multiple service
+delivery partners. Designed the overall architecture, reducing the required investment
+from £10M to £3.5M by leveraging strategic outsourcing and partnerships.
+• Self-Training. (December 2020 – February 2021)
+o Achieved 5 AWS certifications and earned a Six Sigma Black Belt certification through
+independent study.
+• Software Consultant, Innovation Sprint Ltd (Belgium startup in Health IT) (June 2020 –
+November 2020)
+o Led the cloud transformation to Azure, designing the migration of core production
+systems to .Net Core 3.1, Azure SQL and Kubernetes with Terraform and IaaC.
+Implemented a Code First approach, reducing development time by ~25% and
+accelerating CI/CD deployments by 3x.
+o Enhanced security at both the code and design levels with automated checks and
+alerts, ensuring immediate notification of security breaches or incidents.
+o Planned and implemented a microservices architecture, automating quality control
+processes. Production errors decreased by 70%, while compliance with quality
+regulations was achieved.
+o Led the development of an e-Consent mobile app featuring video streaming, user
+verification and e-signing capabilities.
+• Software Consultant, Mobile App "Borw" (London startup in Fashion) (November 2019 –
+April 2020).
+o Designed and developed Borw, a peer-to-peer shopping ecosystem mobile app for
+Android and iOS. Integrated with popular social media platforms (Facebook, Google)
+and Stripe payment APIs (React Native, Express server (TypeScript), Redux and
+Firebase, GCP (Google Cloud platform), Sentry, SendGrid.
+• Lead Architect, Decision Support System for Interreg RECONNECT Project. (May 2019 –
+September 2019).
+o Architected a data analysis platform to provide decision support for construction
+projects in environmentally protected areas, using Python and Dash with GIS libraries
+and World Databank data.The platform enabled accurate projection and allocation of
+construction areas, balancing environmental costs and benefits, saving thousands of
+euros.
+November 2021 to September 2023 Big Data Manager/Software Architect
+Amdocs LTD
+• Leadership & Strategy: Led the Big Data team in the design and development of
+enterprise-level solutions for data warehousing, analytics and geospatial applications,
+ensuring alignment with business goals and technical requirements.
+• Cloud Architecture & Optimization: Re-architected the core platform for cloud service
+delivery on Azure using Docker, Kubernetes and DevOps, improving scalability, performance
+and resource utilization by over 50% through task segregation and queuing optimizations.
+• Feature Innovation: Designed and integrated US Census data into existing platforms for
+advanced geographical analysis and visual representation, enhancing the analytical
+capabilities of the system.
+• Serverless IoT Solution: Developed a serverless solution on AWS for real-time and batch
+processing of IoT data, enabling telemetry and malfunction analytics for over 1M devices.
+Utilized Apache Flink and Amazon Athena for geospatial insights and network status
+monitoring, empowering customer care teams with real-time decision-making capabilities.
+• Team Leadership: Successfully led and motivated a remote team using Teams, GitHub,
+GitLab and Azure DevOps, driving efficient collaboration, improved performance and
+enhanced client satisfaction.
+• Cross-Functional Collaboration: Partnered with AI/ML teams to provide architectural
+oversight for big data projects, ensuring seamless integration of machine learning models
+within cloud infrastructures.
+• Innovation & Recognition: Contributed to the development of Sparkz, a project that earned
+3rd place in the company’s 2022 innovation competition, competing against 70 proposals
+and demonstrating forward-thinking technical solutions.
+January 2012 –October 2021: Infoset LTD
+Chief Technology Officer/Founder
+• Technology Leadership: Directed all aspects of technology, architecture, scaling and
+execution for the company, overseeing the development team responsible for delivering
+health IT systems and services to pharmaceuticals, CROs and research organizations.
+• SaaS Platform Development: Designed and led the development of STUDIO, a ground-
+breaking SaaS cloud platform for managing clinical trials electronically. The platform included
+applications such as eCRF, CTMS, e-Training, finance and payments, eTMF and more. This
+solution enabled pharmaceutical companies and CROs to reduce data management costs by
+~30% while offering full flexibility in trial execution.
+• Project Management & Delivery: Successfully completed over 30 projects throughout the
+platform's lifecycle, including high-profile projects for Fortune 500 pharmaceutical companies
+and their subsidiaries. Technology Stack: Visual Studio, ASP.NET, C#, MS SQL Server, MS
+SQL Reporting Services, Ext.js, Azure Cloud.
+• Strategic Decisions: Conducted in-depth market due diligence to assess buy vs. build
+strategies and optimized system validation procedures in accordance with ISO9001 and GCP
+guidelines.
+• Innovation in Patient Support Systems: Architected and led the development of IPSOSYS,
+a pioneering patient support system designed to organize medical personnel workflows,
+coordinate medical supply delivery and generate insights from active programs. Collaborated
+closely with product and development teams to identify key features, resolve pain points and
+implement strategic architectural changes, achieving the projected ROI within one year.
+• Agile Implementation & Engineering Oversight: Instituted agile development
+methodologies across all IT projects, providing leadership in system architecture, engineering
+guidance and verification processes. Successfully achieved a profitability margin of 50% on
+software development projects.
+• Industry Engagement: Participated as a speaker/presenter at international med-tech
+conferences, contributing innovative ideas that led to key partnerships and new business
+opportunities.
+• ERP/CRM Development: Led the development of ERP, CRM, inventory and accounting
+applications on the Odoo platform (OpenERP, MVC, Python). Identified market gaps and
+drove a product differentiation strategy to address niche markets.
+January 2010 – November 2011 Aksia LTD
+Software Development Manager
+• Established and led IT Branch: Established and managed the company’s IT branch in
+Greece from its inception, overseeing the recruitment, training and development of a high-
+performing team, while driving the branch's growth and technical excellence.
+• Team Growth & Strategic Development: Transformed the team into the company’s core
+software development department by progressively expanding technical capabilities, meeting
+growing demands and fostering continuous growth and skill development.
+• High-Performance Culture: Built a high-performance development organization with a
+strong focus on people, ethics, integrity and agile methodologies.
+• Key Projects: Led the design, implementation and optimization of multiple critical financial
+and reporting applications, including:
+o Financial applications with third-party integrations such as Blue Spring BPM,
+Bloomberg, Yahoo Finance, Edgar Online and Dow Jones Factiva.
+o Migrated 13F reports to a fully customizable reporting and statistical application.
+o Developed Condor, a reporting and hedge fund monitoring application.
+o Created a Hedge Funds Liquidity reporting tool, tracking liquidity based on fund
+transactions and holdings.
+o Developed a funds screener with dynamic filters and portfolio selection tools.
+o Designed and implemented an internal CRM system, fully integrated into the
+company’s intranet portal.
+o Technology Stack: Visual Studio, ASP.NET, C#, MS SQL Server, Ext.NET.
+January 2006 – December 2009 Intellisolutions S.A.
+Senior Software Consultant
+• Project Planning & Execution: Successfully planned and executed IT projects within the
+banking and telecommunications sectors.
+• Client Collaboration: Continuous consultation and collaboration with clients throughout all
+project phases, from pre-sales meetings to final delivery, ensuring alignment with client
+needs and goals.
+• Solution Conceptualization & Team Leadership: Spearheaded the conceptualization of
+new solutions while overseeing development teams from a technical management
+perspective.
+• Enterprise Content Management (ECM) Success: Delivered successful ECM projects for
+two of the top three banks in Greece, generating ~€1.5M in annual revenue through service
+design and technical leadership.
+• Hands-On Development & Architectural Design: Led the development and design of
+solutions, leveraging technologies such as ASP.NET, SQL Server, MS SharePoint for
+Enterprise Records Management and Business Process Management systems. Developed
+an intranet-based Customer Identification Process system, consolidating data from multiple
+bank systems to improve efficiency and accuracy. Architected an automated Invoice Process
+Management System, capable of recognizing scanned images, extracting metadata and
+processing them in accordance with the bank's process management system.
+April 2005 – December 2005 TELLAS S.A
+Software Engineer
+• Architectural Design & Analysis: Conducted architectural design and analysis, overseeing
+software development and ensuring quality in vendor deliverables.
+• Hands-On Development and Systems optimization: Directly contributed to the
+development and enhancement of the Billing System (Geneva) and CRM (Siebel) while
+optimizing Fraud and Commissioning systems (Oracle 9g) based on management
+requirements, resulting in significant cost savings by avoiding the need for expensive system
+extensions.
+June 2003 – April 2005 4M S.A
+Software developer
+• Web-Based Project Implementation: Led the implementation of web-based projects,
+including an internal ERP system and e-commerce platform. These systems supported the
+entire customer base with online software updates, ticketing, seminar registrations and more.
+This initiative resulted in a ~90% increase in web sales and a ~30% reduction in client
+support time.
+• Software Optimization & Research: Contributed to the research and optimization of 4M
+software products, including applications developed in Delphi, VB.NET and MS Access.
+• Server Infrastructure Administration: Supporting both Windows 2000 and Linux servers to
+ensure reliable and efficient operation.
+Education
+University of Edinburgh, UK
+MSc in Computer Science (2000 - 2001)
+The program provided a robust foundation in advanced software development topics, including
+Software Engineering with Objects and Components, Human-Computer Interaction, Distributed
+Systems, Mobile Computation, Algorithms and Data Structures, Computer Communications,
+Database Systems and Programming Methodology. Specialized in object-oriented software
+design and distributed applications. Led a team in developing the "Rail Track Software
+Architecture Prototype," delivering a prototype architecture for the UK rail track signaling project.
+My dissertation was about implementing a modeling and simulation tool on Java.
+National Technical University of Athens (N.T.U.A.), Greece
+Bachelor in Electrical and Computer Engineering (1995 - 2000)
+Degree: 7.4 / 10
+The five-year program covered approximately 60 courses across Mathematics, Physics,
+Electronics, Software and Hardware Design, Low and High-Level Programming Languages,
+Networks, Databases, Energy Systems, Automated Systems, Robotics and Management.
+Focused on Information Technology in the final 2.5 years. Completed a thesis on designing and
+developing a collaborative internet-based educational assessment tool using Java.
+Certifications
+• Azure Solutions Architect Expert 15/6/2021 Certification Number: H856-1892 transcript
+• Azure DevOps Engineer Expert 6/4/2024 Certification Number: AD4FE0-KD3B4A
+transcript
+• Azure Data Scientist Associate 14/5/2024 Certification Number: R1957A-B9F83B
+transcript
+• Azure Administrator Associate 6/4/2024 Certification Number: B6E6A6-F450FJ
+transcript
+• Azure Data Engineer Associate 11/1/2023 Certification Number: I565-6137 transcript
+• AWS Certified Solutions Architect – Professional 12/02/2021 cert
+• AWS Certified DevOps Engineer – Professional 25/01/2021 cert
+• AWS Certified Data Analytics – Specialty 19/3/2021 (expired) cert
+• IASCC Lean Six Sigma Certified Black Belt 31/12/2020 ) (expired) IASSC CBB: B-7965
+cert.
+• AWS Certified Solutions Architect - Associate 27/11/2020 cert
+• AWS Certified Developer - Associate 08/12/2020 cert
+• ODOO – Odoo 12 (1435149 – 27/1/2019) cert
+• SCDM - Certified Clinical Data Manager (22044 - 15/1/2013) (expired) cert
+• Udemy - Over 50 completed courses (https://www.udemy.com/user/fotios-stathopoulos viewable
+through udemy account)
+• 431 TS: Microsoft SQL Server™ 2005 - Implementation and Maintenance (8/4/2008)
+• 528 TS: Microsoft .NET Framework 2.0 - Web-based Client Development (9/1/2007)
+• Microsoft® Certified Technology Specialist: SQL Server 2005 (8/4/2008), C063-1591
+• Abbyy Certified Professional 2007
+Other
+• Member of T.E.E. (Technical Chamber of Greece)
+• Military obligation fulfilled (March 2002 – May 2003).
+• Scholarship: EPCRC studentship for the MSc degree in Edinburgh University (2001).
+• Award: 2nd best performance in National Mathematics competition in central Greece
+(1994).
+• Languages: Fluent English, Native Greek.
+Interests and Activities
+I enjoy running, regular exercising and kitesurfing.

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>AI Form Filler</title>
   <style>
     body {
@@ -58,20 +59,382 @@
       color: #666;
       font-style: italic;
     }
+    .instructions-section {
+      margin: 15px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fafafa;
+    }
+    .instructions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 8px 8px 0 0;
+      transition: background-color 0.2s;
+    }
+    .instructions-header:hover {
+      background-color: #f0f0f0;
+    }
+    .expand-icon {
+      font-size: 12px;
+      transition: transform 0.2s;
+      color: #666;
+    }
+    .expand-icon.expanded {
+      transform: rotate(-180deg);
+    }
+    .instructions-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 15px;
+    }
+    .instructions-content.expanded {
+      max-height: 200px;
+      padding: 0 15px 15px 15px;
+    }
+    .instructions-content textarea {
+      width: 100%;
+      min-height: 80px;
+      max-height: 120px;
+      resize: vertical;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      line-height: 1.4;
+      box-sizing: border-box;
+    }
+    .instructions-content textarea:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+    .char-counter {
+      text-align: right;
+      font-size: 10px;
+      color: #888;
+      margin-top: 5px;
+    }
+    .upload-section {
+      margin: 15px 0;
+      padding: 15px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      text-align: center;
+      background-color: #fafafa;
+    }
+    .upload-section.dragover {
+      border-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+    .file-input {
+      margin: 10px 0;
+    }
+    .file-input input[type="file"] {
+      display: none;
+    }
+    .file-input label {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #2196F3;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .file-input label:hover {
+      background-color: #1976D2;
+    }
+    .uploaded-files {
+      margin-top: 10px;
+      text-align: left;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 12px;
+    }
+    .file-item:last-child {
+      border-bottom: none;
+    }
+    .file-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin-right: 10px;
+    }
+    .delete-file {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 10px;
+      cursor: pointer;
+    }
+    .delete-file:hover {
+      background: #d32f2f;
+    }
+    .knowledge-status {
+      margin: 10px 0;
+      font-size: 12px;
+      color: #666;
+    }
+    .clear-library-btn {
+      background-color: #f5f5f5;
+      color: #333;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 16px;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+      box-shadow: none;
+    }
+    .clear-library-btn:hover {
+      background-color: #f5f5f5;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .clear-library-btn:hover {
+      background: linear-gradient(135deg, #f5f5f5, #f5f5f5);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(255, 71, 87, 0.4);
+    }
+    .clear-library-btn:active {
+      transform: translateY(0);
+    }
+    .clear-icon {
+      font-size: 14px;
+    }
+    .library-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .stats-info {
+      font-size: 11px;
+      color: #888;
+    }
+
+    /* Settings Modal Styles */
+    .settings-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+
+    .settings-modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 280px;
+      max-width: 90%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .settings-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .close-settings {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .close-settings:hover {
+      color: #333;
+      background: none;
+    }
+
+    .settings-field {
+      margin-bottom: 15px;
+    }
+
+    .settings-field label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .settings-field input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 12px;
+      box-sizing: border-box;
+    }
+
+    .settings-field input:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+
+    .settings-help {
+      font-size: 10px;
+      color: #666;
+      margin-top: 5px;
+      line-height: 1.3;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .settings-actions button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .save-settings {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .save-settings:hover {
+      background-color: #45a049;
+    }
+
+    .cancel-settings {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .cancel-settings:hover {
+      background-color: #e0e0e0;
+    }
   </style>
 </head>
 <body>
-  <h2>AI Form Assistant</h2>
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>
+      <img src="icons/icon-32.png" alt="" width="24" height="24" style="vertical-align:middle; margin-right:8px;">
+      AI Form Assistant
+    </h2>
+    <button id="settingsBtn" style="background: #fff; padding: 4px 8px; font-size: 14px;" title="Settings">⚙️</button>
+  </div>
   
   <div class="button-group">
-    <button id="readPage" class="secondary">📄 Read Page</button>
-    <button id="fillForm">🤖 Fill Form</button>
+    <button id="readPage" class="secondary">🔎 Analyse Page</button>
+    <button id="fillForm">✨ Fill Form</button>
+  </div>
+
+  <div class="instructions-section">
+    <div class="instructions-header" id="instructionsHeader">
+      <span>📝 Additional Instructions</span>
+      <span class="expand-icon" id="expandIcon">▼</span>
+    </div>
+    <div class="instructions-content" id="instructionsContent">
+      <textarea 
+        id="customInstructions" 
+        placeholder="Add specific instructions for form filling (e.g., 'Use professional tone', 'Fill company as freelancer', 'Leave phone field empty')..."
+        maxlength="500"></textarea>
+      <div class="char-counter">
+        <span id="charCount">0</span>/500 characters
+      </div>
+    </div>
+  </div>
+
+  <div class="upload-section" id="uploadSection">
+    <div>📂 Upload Documents for AI Knowledge</div>
+    <div class="file-input">
+      <label for="fileInput">Choose Files</label>
+      <input type="file" id="fileInput" multiple accept=".txt,.pdf,.docx,.md,.json,.csv">
+    </div>
+    <div style="font-size: 11px; color: #888; margin-top: 5px;">
+      Supports: TXT, PDF, DOCX, MD, JSON, CSV
+    </div>
+    <div class="uploaded-files" id="uploadedFiles"></div>
+    <div class="library-stats">
+      <div class="knowledge-status" id="knowledgeStatus"></div>
+      <button class="clear-library-btn" id="clearLibrary" title="Clear all uploaded files and embeddings">
+        <span class="clear-icon"> ❌ </span>
+        <span></span>
+      </button>
+    </div>
   </div>
 
   <div id="status" class="status"></div>
   
   <div class="console-hint">
     💡 Open DevTools Console (⌘⌥J) to see detailed logs
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="settings-modal">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h3>⚙️ Settings</h3>
+        <button id="closeSettings" class="close-settings">×</button>
+      </div>
+      
+      <div class="settings-field">
+        <label for="apiKeyInput">Gemini API Key:</label>
+        <div style="position: relative;">
+          <input type="password" id="apiKeyInput" placeholder="Enter your Gemini API key" style="padding-right: 35px;">
+          <button type="button" id="toggleApiKey" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 14px; padding: 0; width: 24px; height: 24px;">👁️</button>
+        </div>
+        <div class="settings-help">
+          Get your API key from <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>
+        </div>
+      </div>
+      
+      <div class="settings-actions">
+        <button id="cancelSettings" class="cancel-settings">Cancel</button>
+        <button id="saveSettings" class="save-settings">Save</button>
+      </div>
+    </div>
   </div>
 
   <script src="popup.js"></script>
