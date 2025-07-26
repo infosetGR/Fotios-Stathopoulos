@@ -1,5 +1,6 @@
 # Demo Video
 
+http://tiny.cc/infoset
 
 
 Please record a 3–5 minute walkthrough showing:
@@ -12,7 +13,8 @@ Please record a 3–5 minute walkthrough showing:
 
 📺 **Provide a Hosted Public Video Link (YouTube unlisted / Loom / MP4):**  MUST BE ON A HOS
 
-https://your.video.link.here
+http://tiny.cc/infoset
+
 
 PLEASE DO NOT UPLOAD RAW VIDOE FILES. These submissions will not be reviewed.
 
