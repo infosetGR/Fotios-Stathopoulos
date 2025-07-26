@@ -39,4 +39,42 @@ Welcome! This repository is your starting point for the **Agentic AI App Hackath
 - **Societal Impact & Novelty **  
   This evaluates the project's potential to address a meaningful problem, contribute positively to society, or offer a genuinely innovative and unique solution. Judges will consider the originality of the idea, its potential real‑world applicability, and its ability to solve a challenge in a new or impactful way.
 
+# HealthSymptom to CarePlan AI
+
+An interactive agent that takes plain-language symptoms (e.g., “I’ve had a headache and fatigue for 3 days”) and:
+- Analyzes and clarifies symptoms
+- Plans a care strategy (triage, monitor, escalate, lifestyle)
+- Uses Gemini API for reasoning and medical explanation
+- Stores and retrieves memory (e.g., past symptoms, conditions)
+
+## Setup
+
+1. **Clone the repo**
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Get a Gemini API key:**
+   - Sign up at [Google AI Studio](https://aistudio.google.com/app/apikey)
+   - Copy your API key
+4. **Create a `.env` file in the project root:**
+   ```env
+   GEMINI_API_KEY=your-gemini-api-key-here
+   ```
+5. **Run the app:**
+   ```bash
+   python src/main.py
+   ```
+
+## File Structure
+- `src/gemini_client.py` — Gemini API client
+- `src/planner.py` — Breaks down user goals into subtasks
+- `src/executor.py` — Calls Gemini for each subtask
+- `src/memory.py` — Logs and retrieves symptom history
+- `src/main.py` — Main app loop
+
+## Notes
+- Your API key is required and should **never** be committed to version control.
+- All memory is stored in `src/data/memory.json`.
+
 

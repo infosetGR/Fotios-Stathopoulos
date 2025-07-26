@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "AI Form Filler",
+  "description": "Intelligently fill web forms using AI",
+  "version": "1.0",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["field-context.js", "content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
