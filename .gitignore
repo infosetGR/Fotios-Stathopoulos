@@ -1,9 +1,14 @@
 # Environment variables
+.env
+.env.*
 src/.env
-src/.env.local
-src/.env.development
-src/.env.production
-src/*.env
+src/.env.*
+**/.env
+**/.env.*
+
+# But allow example files
+!.env.example
+!**/.env.example
 
 # API Keys and secrets
 **/config/keys.js
